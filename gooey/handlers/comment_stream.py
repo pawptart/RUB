@@ -1,4 +1,4 @@
-from handlers.errors import FunctionNotAllowed
+from gooey.handlers.errors import FunctionNotAllowed
 
 
 class CommentStream:

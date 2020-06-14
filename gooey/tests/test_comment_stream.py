@@ -1,13 +1,12 @@
-from tests.reddit_mocks import *
-from database.db import Database
-from handlers.comment_stream import CommentStream
+from reddit_mocks import *
+from gooey.database.db import Database
+from gooey.handlers.comment_stream import CommentStream
 import unittest
 import sys
 import os
 import pdb
 import io
 from contextlib import redirect_stdout
-sys.path.append(os.path.abspath('./gooey'))
 
 
 class TestCommentStream(unittest.TestCase):
