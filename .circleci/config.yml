@@ -22,8 +22,10 @@ jobs:
       - python/install-deps
       - python/save-cache
       - run:
-          command: autopep8 --diff --recursive . --exclude 'venv'
-          name: lint
+          command: |
+            pip install -r requirements.txt
+            autopep8 --diff --recursive . --exclude 'venv'
+          name: Lint
 
 workflows:
   main:
