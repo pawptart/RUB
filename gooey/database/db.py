@@ -4,7 +4,7 @@ import sqlite3 as db
 
 class Database:
 
-    DB_PATH = { 
+    DB_PATH = {
         'production': './gooey.db',
         'development': './gooey_development.db',
         'test': './gooey_test.db'

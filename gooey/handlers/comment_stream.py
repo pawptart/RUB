@@ -1,4 +1,4 @@
-from handlers.errors import FunctionNotAllowed
+from gooey.handlers.errors import FunctionNotAllowed
 
 
 class CommentStream:
@@ -12,11 +12,12 @@ class CommentStream:
         self.fn = getattr(self, 'cmd_' + self.fn_attributes['name'])
 
         if self.fn is None:
-            raise FunctionNotAllowed('Function "{}" not allowed'.format(fn_name))
+            raise FunctionNotAllowed(
+                'Function "{}" not allowed'.format(fn_name))
 
     def run(self):
         subreddit = self.config['subreddit']
-        
+
         for comment in self.reddit.subreddit(subreddit).stream.comments(**self.action_kwargs):
             self.fn(comment)
 
@@ -24,7 +25,7 @@ class CommentStream:
         print(comment.body)
 
     def cmd_reply(self, comment):
-        trigger = self.fn_attributes['contains'] 
+        trigger = self.fn_attributes['contains']
         body = comment.body
 
         if not self.fn_attributes['case_sensitive']:
@@ -33,7 +34,7 @@ class CommentStream:
 
         if trigger not in body:
             return
-            
+
         reply_body = self.fn_attributes['comment_reply_body']
         comment.reply(reply_body)
 

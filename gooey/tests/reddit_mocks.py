@@ -1,9 +1,11 @@
 import uuid
 import weakref
 
+
 class MockReddit:
     def __init__(self):
         self.user = MockUser()
+
 
 class MockComment:
     def __init__(self, comment_id=None, author=None, body='test', parent=None, replies=None):
@@ -25,6 +27,7 @@ class MockComment:
             return self.replies[-1].body
         else:
             return []
+
 
 class MockUser:
     def __init__(self, user_id=None, name='RedditGooeyBot'):

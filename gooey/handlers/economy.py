@@ -1,6 +1,6 @@
-from handlers.errors import FunctionNotAllowed, CommandNotMatched
-from handlers.logger import Logger
-from database.db import Database
+from gooey.handlers.errors import FunctionNotAllowed, CommandNotMatched
+from gooey.handlers.logger import Logger
+from gooey.database.db import Database
 import re
 import sqlite3
 
@@ -32,7 +32,8 @@ class Economy:
 
     def format_command_regex(self, command_attributes):
         command_text = command_attributes['text']
-        escaped_command = ''.join([self.escaped_character(character) for character in command_text])
+        escaped_command = ''.join(
+            [self.escaped_character(character) for character in command_text])
 
         return self.command_regex_template.format(escaped_command)
 
@@ -55,8 +56,9 @@ class Economy:
 
     def user_inventory_message(self, user):
         user_inventory = self.retrieve_user_inventory(user)
-        items, funds = (user_inventory['items_available'], user_inventory['funds_available'])
-        
+        items, funds = (
+            user_inventory['items_available'], user_inventory['funds_available'])
+
         return '\n\nItems Available: {}\n\nFunds Available: {}'.format(items, funds)
 
     def retrieve_user_inventory(self, user):
@@ -105,7 +107,6 @@ class Economy:
         db.connection.cursor().execute(sql).fetchone()
         db.close()
 
-        
     def cmd_find_economy_command(self, comment):
         for command in self.config['economy_commands']:
             if 'case_sensitive' not in command.keys() or command['case_sensitive'] == False:
@@ -117,7 +118,7 @@ class Economy:
 
             if command_text in comment_body:
                 return command
-            
+
         return None
 
     def cmd_call_command_function(self, comment, command_attributes):
@@ -126,7 +127,8 @@ class Economy:
         self.fn = getattr(self, fn_name)
 
         if self.fn is None:
-            raise FunctionNotAllowed('Function "{}" not allowed'.format(fn_name))
+            raise FunctionNotAllowed(
+                'Function "{}" not allowed'.format(fn_name))
 
         Logger().log_function_call(self.fn, command_attributes, caller=self, comment=comment)
         self.fn(comment, command_attributes)
@@ -141,11 +143,13 @@ class Economy:
         if current_funds <= reload_threshold:
             current_funds += reload_amount
             self.store_changes(user, funds_delta=reload_amount)
-        
+
             inventory_text = self.user_inventory_message(user)
-            comment.reply("{}'s funds were reloaded!\n\nCurrent inventory: {}".format(user.name, inventory_text))
+            comment.reply("{}'s funds were reloaded!\n\nCurrent inventory: {}".format(
+                user.name, inventory_text))
         else:
-            comment.reply("{}'s funds weren't reloaded due to being above the reload threshold.")
+            comment.reply(
+                "{}'s funds weren't reloaded due to being above the reload threshold.")
 
     def cmd_buy(self, comment, command_attributes):
         item_price = command_attributes['item_price']
@@ -153,22 +157,27 @@ class Economy:
         user_inventory = self.retrieve_user_inventory(user)
 
         try:
-            num_purchased = self.find_command_value(command_attributes, comment.body)
+            num_purchased = self.find_command_value(
+                command_attributes, comment.body)
         except CommandNotMatched:
-            comment.reply('Command is a match, but is missing extra details. Transaction unable to be processed.')
+            comment.reply(
+                'Command is a match, but is missing extra details. Transaction unable to be processed.')
             return
 
         current_funds = user_inventory['funds_available']
         cost = item_price * num_purchased
 
         if current_funds >= cost:
-            self.store_changes(user, funds_delta=(-1 * cost), items_delta=num_purchased)
+            self.store_changes(user, funds_delta=(-1 * cost),
+                               items_delta=num_purchased)
 
             inventory_text = self.user_inventory_message(user)
-            comment.reply("{}'s inventory has increased by {}, and funds decreased by {}!\n\nCurrent stats: {}".format(user.name, num_purchased, cost, inventory_text))
+            comment.reply("{}'s inventory has increased by {}, and funds decreased by {}!\n\nCurrent stats: {}".format(
+                user.name, num_purchased, cost, inventory_text))
         else:
             inventory_text = self.user_inventory_message(user)
-            comment.reply("{}'s transaction was not completed. REASON: Not enough funds. Needed {}.\n\nCurrent stats: {}".format(user.name, cost, inventory_text))
+            comment.reply("{}'s transaction was not completed. REASON: Not enough funds. Needed {}.\n\nCurrent stats: {}".format(
+                user.name, cost, inventory_text))
 
     def cmd_sell(self, comment, command_attributes):
         item_price = command_attributes['item_price']
@@ -176,9 +185,11 @@ class Economy:
         user_inventory = self.retrieve_user_inventory(user)
 
         try:
-            num_sold = self.find_command_value(command_attributes, comment.body)
+            num_sold = self.find_command_value(
+                command_attributes, comment.body)
         except CommandNotMatched:
-            comment.reply('Command is a match, but is missing extra details. Transaction unable to be processed.')
+            comment.reply(
+                'Command is a match, but is missing extra details. Transaction unable to be processed.')
             return
 
         if num_sold <= user_inventory['items_available']:
@@ -190,13 +201,16 @@ class Economy:
             self.store_changes(user, funds_delta=cost, items_delta=transaction)
 
             inventory_text = self.user_inventory_message(user)
-            comment.reply("{}'s inventory has decreased by {}, and funds increased by {}!\n\nCurrent stats: {}".format(user.name, num_sold, num_sold * item_price, inventory_text))
+            comment.reply("{}'s inventory has decreased by {}, and funds increased by {}!\n\nCurrent stats: {}".format(
+                user.name, num_sold, num_sold * item_price, inventory_text))
         else:
             inventory_text = self.user_inventory_message(user)
-            comment.reply("{}'s transaction was not completed. REASON: Not enough items. Needed {}.\n\nCurrent stats: {}".format(user.name, num_sold, inventory_text))
+            comment.reply("{}'s transaction was not completed. REASON: Not enough items. Needed {}.\n\nCurrent stats: {}".format(
+                user.name, num_sold, inventory_text))
 
     def cmd_add(self, comment, command_attributes):
-        award_to_parent = 'award_to_parent' in command_attributes and command_attributes['award_to_parent'] == True
+        award_to_parent = 'award_to_parent' in command_attributes and command_attributes[
+            'award_to_parent'] == True
         comment = comment.parent if award_to_parent else comment
         user = comment.author
         user_inventory = self.retrieve_user_inventory(user)
@@ -205,7 +219,8 @@ class Economy:
 
         self.store_changes(user, items_delta=1)
         inventory_text = self.user_inventory_message(user)
-        comment.reply("{}'s inventory has increased by 1!\n\nCurrent stats: {}".format(user.name, inventory_text))
+        comment.reply("{}'s inventory has increased by 1!\n\nCurrent stats: {}".format(
+            user.name, inventory_text))
 
         if 'update_user_flair' in command_attributes and command_attributes['update_user_flair'] == True:
             self.cmd_set_user_flair_text(user, command_attributes)

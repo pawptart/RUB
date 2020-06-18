@@ -1,13 +1,12 @@
+from reddit_mocks import *
+from gooey.database.db import Database
+from gooey.handlers.comment_stream import CommentStream
 import unittest
 import sys
 import os
 import pdb
 import io
 from contextlib import redirect_stdout
-sys.path.append(os.path.abspath('./gooey'))
-from handlers.comment_stream import CommentStream
-from database.db import Database
-from tests.reddit_mocks import *
 
 
 class TestCommentStream(unittest.TestCase):
@@ -94,7 +93,8 @@ class TestCommentStream(unittest.TestCase):
             }
         }
 
-        case_sensitive_stream = CommentStream(MockReddit(), cs_reply_case_sensitive_attributes)
+        case_sensitive_stream = CommentStream(
+            MockReddit(), cs_reply_case_sensitive_attributes)
         case_sensitive_stream.cmd_reply(valid_comment)
         # Should not change from 1
         self.assertEqual(len(valid_comment.replies), 1)

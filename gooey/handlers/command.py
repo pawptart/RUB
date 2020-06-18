@@ -1,4 +1,4 @@
-from handlers.errors import FunctionNotAllowed
+from gooey.handlers.errors import FunctionNotAllowed
 
 
 class Command:
@@ -8,8 +8,9 @@ class Command:
 
         self.action_kwargs = self.config['action']['kwargs']
 
-        fn_name     = 'cmd_' + self.config['action']['name']
-        self.fn     = getattr(self, fn_name)
+        fn_name = 'cmd_' + self.config['action']['name']
+        self.fn = getattr(self, fn_name)
 
         if self.fn is None:
-            raise FunctionNotAllowed('Function "{}" not allowed'.format(fn_name))
+            raise FunctionNotAllowed(
+                'Function "{}" not allowed'.format(fn_name))

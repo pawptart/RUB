@@ -1,0 +1,3 @@
+[tool.autopep8]
+max-line-length = 120
+exclude = "*/control_panel/app/__init__.py,venv"

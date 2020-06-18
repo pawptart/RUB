@@ -1,4 +1,4 @@
-from handlers.errors import FunctionNotAllowed
+from gooey.handlers.errors import FunctionNotAllowed
 
 
 class SubmissionStream:
@@ -8,11 +8,12 @@ class SubmissionStream:
 
         self.action_kwargs = self.config['action']['kwargs']
 
-        fn_name     = 'cmd_' + self.config['action']['name']
-        self.fn     = getattr(self, fn_name)
+        fn_name = 'cmd_' + self.config['action']['name']
+        self.fn = getattr(self, fn_name)
 
         if self.fn is None:
-            raise FunctionNotAllowed('Function "{}" not allowed'.format(fn_name))
+            raise FunctionNotAllowed(
+                'Function "{}" not allowed'.format(fn_name))
 
     def run(self):
         subreddit = self.config['subreddit']
@@ -38,7 +39,7 @@ class SubmissionStream:
 
     def cmd_add_user_flair(self, submission):
         if not self.config['submission_author_flair_condition']:
-            return 
+            return
 
         redditor = submission.author
         attributes = self.config['submission_flair_attributes']

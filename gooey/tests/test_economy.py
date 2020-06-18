@@ -1,11 +1,10 @@
+from reddit_mocks import *
+from gooey.database.db import Database
+from gooey.handlers.economy import Economy
 import unittest
 import sys
 import os
 import pdb
-sys.path.append(os.path.abspath('./gooey'))
-from handlers.economy import Economy
-from database.db import Database
-from tests.reddit_mocks import *
 
 
 class TestEconomy(unittest.TestCase):
@@ -194,7 +193,8 @@ class TestEconomy(unittest.TestCase):
         self.assertEqual(inventory['funds_available'], 0)
         self.assertEqual(inventory['items_available'], 1)
         self.assertEqual(len(parent_comment.replies), 2)
-        self.assertIn('inventory has increased by 1', parent_comment.last_reply)
+        self.assertIn('inventory has increased by 1',
+                      parent_comment.last_reply)
 
     def test_cmd_list_inventory(self):
         # Should reply to original comment with inventory
@@ -207,7 +207,7 @@ class TestEconomy(unittest.TestCase):
         economy = Economy(MockReddit(), self.BASE_CONFIG)
 
         self.assertEqual(len(comment.replies), 0)
-        
+
         economy.cmd_list_inventory(comment)
 
         self.assertEqual(len(comment.replies), 1)
