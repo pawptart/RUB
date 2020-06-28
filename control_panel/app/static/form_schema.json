@@ -14,7 +14,8 @@
       "function_name": "reload_funds",
       "text": "string",
       "item_price": "integer",
-      "reload_amount": "integer"
+      "reload_amount": "integer",
+      "reload_threshold": "integer"
     },
     {
       "function_name": "add",
