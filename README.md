@@ -1,4 +1,8 @@
 # Gooey
+![Version](https://img.shields.io/github/v/release/GooeyBot/Gooey)
+[![GooeyBot](https://circleci.com/gh/GooeyBot/Gooey.svg?style=shield)](https://app.circleci.com/pipelines/github/GooeyBot/Gooey)
+[![Issues](https://img.shields.io/github/issues/GooeyBot/Gooey)](https://github.com/GooeyBot/Gooey/issues)
+
 > Gooey is a Reddit bot framework built around PRAW to simplify the creation of bots for non-technical users.
 
 <p align="center">
