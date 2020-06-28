@@ -1,5 +1,5 @@
 # Gooey
-![Version](https://img.shields.io/github/v/release/GooeyBot/Gooey)
+![Version](https://img.shields.io/github/v/release/GooeyBot/Gooey?include_prereleases)
 [![GooeyBot](https://circleci.com/gh/GooeyBot/Gooey.svg?style=shield)](https://app.circleci.com/pipelines/github/GooeyBot/Gooey)
 [![Issues](https://img.shields.io/github/issues/GooeyBot/Gooey)](https://github.com/GooeyBot/Gooey/issues)
 
