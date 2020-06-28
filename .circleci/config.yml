@@ -12,8 +12,10 @@ jobs:
       - python/install-deps
       - python/save-cache
       - run:
-          command: python -m unittest discover gooey/tests/ 
-          name: Test
+          command: |
+            cd gooey
+            python -m unittest discover tests
+          name: Test Bot
   code-lint:
     executor: python/default
     steps:

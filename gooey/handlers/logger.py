@@ -1,6 +1,6 @@
 import logging
 import os
-from gooey.handlers.errors import UnknownCaller
+from handlers.errors import UnknownCaller
 
 
 class Logger:

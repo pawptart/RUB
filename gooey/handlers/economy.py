@@ -1,6 +1,6 @@
-from gooey.handlers.errors import FunctionNotAllowed, CommandNotMatched
-from gooey.handlers.logger import Logger
-from gooey.database.db import Database
+from handlers.errors import FunctionNotAllowed, CommandNotMatched
+from handlers.logger import Logger
+from database.db import Database
 import re
 import sqlite3
 

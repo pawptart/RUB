@@ -16,13 +16,12 @@ _ENVIRONMENT = os.environ['FLASK_ENV'] if 'FLASK_ENV' in os.environ.keys(
 ) else 'development'
 os.environ['ENVIRONMENT'] = _ENVIRONMENT
 _CONFIG_FILENAME = _VALID_FILENAMES[_ENVIRONMENT]
-_CONFIG_PATH = os.path.abspath('./{}'.format(_CONFIG_FILENAME))
 
 
 class Gooey:
 
-    config = load_config(_CONFIG_PATH)
-    _ALLOWED_HANDLERS = load_allowed_handlers('./gooey/handlers')
+    config = load_config(_CONFIG_FILENAME)
+    _ALLOWED_HANDLERS = load_allowed_handlers()
 
     def __init__(self):
         self.handler = self.select_handler()

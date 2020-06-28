@@ -1,4 +1,4 @@
-from gooey.handlers.errors import FunctionNotAllowed
+from handlers.errors import FunctionNotAllowed
 
 
 class SubmissionStream:

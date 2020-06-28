@@ -1,6 +1,6 @@
 from reddit_mocks import *
-from gooey.database.db import Database
-from gooey.handlers.comment_stream import CommentStream
+from database.db import Database
+from handlers.comment_stream import CommentStream
 import unittest
 import sys
 import os
