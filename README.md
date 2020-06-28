@@ -29,11 +29,11 @@ First, open up a terminal window, then:
 2. `cd gooey` -- Change directory to the `gooey` folder
 3. `sh setup.sh` -- This will set up your machine with Gooey, including downloading requirements and setting up a virtual environment
 4. `flask run` -- Start a server in development mode!
-5. Your server is listening by default on `localhost:5000`! You can now navigate to a web browser and visit `http://localhost:5000/` to access the control panel.
+5. Your server is listening by default on `localhost:5000`! You can now navigate to a web browser and visit `http://localhost:5000/` to access Mission Control.
 
 #### The next section will definitely change in the future!
 
-You can create a bot configuration or manage an existing configuration from the control panel. 
+You can create a bot configuration or manage an existing configuration from Mission Control. 
 
 Creating a bot is easy -- You'll need a standard Reddit account (recommended not to use your personal one!), and then you can navigate to [https://www.reddit.com/prefs/apps](https://www.reddit.com/prefs/apps) to register a new script. If you need help, you can refer to [this post](https://www.reddit.com/r/RequestABot/comments/cyll80/a_comprehensive_guide_to_running_your_reddit_bot/) under the `OAuth` section for how these fields should be filled out.
 
@@ -45,11 +45,11 @@ For now, the only way to run the bot is through the terminal, so you'll need to 
 
 ## Under the Hood
 
-Gooey is actually 2 parts: **Control Panel** and **Gooey**.
+Gooey is actually 2 parts: **Mission Control** and **Gooey**.
 
-#### Control Panel
+#### Mission Control
 
-Control panel is a Flask app that generates JSON configurations to be read by Gooey. It uses WTForm to dynamically load forms from a schema which in turn tells Control Panel how to build each configuration.
+Control panel is a Flask app that generates JSON configurations to be read by Gooey. It uses WTForm to dynamically load forms from a schema which in turn tells Mission Control how to build each configuration.
 
 #### Gooey
 
