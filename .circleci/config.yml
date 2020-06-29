@@ -42,5 +42,6 @@ jobs:
 workflows:
   main:
     jobs:
-      - build-and-test-bot
+      - build-and-test-gooeybot
+      - build-and-test-mission-control
       - code-lint
