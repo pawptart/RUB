@@ -3,6 +3,7 @@ import os
 import unittest
 from mission_control import app
 
+
 class TestNew(unittest.TestCase):
 
     os.environ['ENVIRONMENT'] = 'test'
@@ -26,6 +27,6 @@ class TestNew(unittest.TestCase):
         # Should redirect to index and prevent override of old config
         with open(self.CONFIG_PATH, 'w') as file:
             json.dump({'test': 'test'}, file)
-            
+
         response = self.app.get('/new', follow_redirects=False)
         self.assertEqual(response.status_code, 302)

@@ -12,7 +12,7 @@ def fetch_config_path():
     if environment_present and os.environ['ENVIRONMENT'] in VALID_FILENAMES:
         filename = VALID_FILENAMES[os.environ['ENVIRONMENT']]
     if flask_env_present and os.environ['FLASK_ENV'] in VALID_FILENAMES:
-        filename = VALID_FILENAMES[os.environ['FLASK_ENV']]  
+        filename = VALID_FILENAMES[os.environ['FLASK_ENV']]
     else:
         filename = VALID_FILENAMES['test']
 

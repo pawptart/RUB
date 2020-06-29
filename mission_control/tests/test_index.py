@@ -3,6 +3,7 @@ import os
 import unittest
 from mission_control import app
 
+
 class TestIndex(unittest.TestCase):
 
     os.environ['ENVIRONMENT'] = 'test'
@@ -27,7 +28,7 @@ class TestIndex(unittest.TestCase):
         # Should always result in 200, but display delete instead of new
         with open(self.CONFIG_PATH, 'w') as file:
             json.dump({'test': 'test'}, file)
-            
+
         response = self.app.get('/', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Delete Existing Bot', response.data)
