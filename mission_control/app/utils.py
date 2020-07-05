@@ -186,7 +186,7 @@ class BotConfigBuilder:
             return value
 
         try:
-            coercion_types = {
+            coercion_functions = {
                 'string': str,
                 'integer': coerce_to_int,
                 'float': float
@@ -194,11 +194,10 @@ class BotConfigBuilder:
 
             function_type_name = '{}_type'.format(function_name)
             function_type = fields[function_type_name]
-            coercion_type = coercion_types[function_type]
+            coercion_fn = coercion_functions[function_type]
 
-            return coercion_type(value)
+            return coercion_fn(value)
         except Exception as e:
-            print(e)
             return value
 
 
