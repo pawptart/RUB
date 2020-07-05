@@ -191,7 +191,7 @@ class BotConfigBuilder:
                 'integer': coerce_to_int,
                 'float': float
             }
-            
+
             function_type_name = '{}_type'.format(function_name)
             function_type = fields[function_type_name]
             coercion_type = coercion_types[function_type]
