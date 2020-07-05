@@ -41,6 +41,10 @@ def new():
 
 @app.route('/delete', methods=['GET'])
 def delete():
+    if not BotConfigBuilder.config_already_exists():
+        flash('Bot configuration does not exist.')
+        return redirect(url_for('index'))
+
     BotConfigBuilder.delete_bot_config()
 
     if BotConfigBuilder.config_already_exists():

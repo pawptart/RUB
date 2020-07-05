@@ -4,14 +4,27 @@ import importlib
 import inspect
 import re
 
+
+def fetch_config_path():
+    flask_env_present = 'FLASK_ENV' in os.environ.keys()
+    environment_present = 'ENVIRONMENT' in os.environ.keys()
+
+    if environment_present and os.environ['ENVIRONMENT'] in VALID_FILENAMES:
+        filename = VALID_FILENAMES[os.environ['ENVIRONMENT']]
+    if flask_env_present and os.environ['FLASK_ENV'] in VALID_FILENAMES:
+        filename = VALID_FILENAMES[os.environ['FLASK_ENV']]
+    else:
+        filename = VALID_FILENAMES['test']
+
+    return os.path.abspath('./../{}'.format(filename))
+
+
 VALID_FILENAMES = {
     'production': 'config.json',
     'development': 'config_development.json',
     'test': 'config_test.json'
 }
-CONFIG_FILENAME = VALID_FILENAMES[os.environ['FLASK_ENV']
-                                  ] if os.environ['FLASK_ENV'] in VALID_FILENAMES else VALID_FILENAMES['test']
-CONFIG_PATH = os.path.abspath('./../{}'.format(CONFIG_FILENAME))
+CONFIG_PATH = fetch_config_path()
 DEFAULT_INDENT = 2
 IGNORABLES = ['csrf_token', 'submit']
 

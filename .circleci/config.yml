@@ -4,7 +4,19 @@ orbs:
   python: circleci/python@0.2.1
 
 jobs:
-  build-and-test-bot:
+  build-and-test-mission-control:
+    executor: python/default
+    steps:
+      - checkout
+      - python/load-cache
+      - python/install-deps
+      - python/save-cache
+      - run:
+          command: |
+            cd mission_control
+            python -m unittest discover tests
+          name: Test Mission Control
+  build-and-test-gooeybot:
     executor: python/default
     steps:
       - checkout
@@ -15,7 +27,7 @@ jobs:
           command: |
             cd gooey
             python -m unittest discover tests
-          name: Test Bot
+          name: Test GooeyBot
   code-lint:
     executor: python/default
     steps:
@@ -30,5 +42,6 @@ jobs:
 workflows:
   main:
     jobs:
-      - build-and-test-bot
+      - build-and-test-gooeybot
+      - build-and-test-mission-control
       - code-lint
