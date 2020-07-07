@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import *
 from wtforms.validators import DataRequired, Length, AnyOf
-from app.utils import titleize_snake_case, remove_boolean
+from app.utils import titleize_snake_case
 import os
 import json
 
@@ -10,9 +10,9 @@ SCHEMA_PATH = os.path.abspath('./app/static/form_schema.json')
 
 class BaseBotForm(FlaskForm):
 
-    VALID_BOT_TYPES = ['economy']
+    VALID_BOT_TYPES = ['economy', 'comment_stream']
 
-    bot_pair_selection_options = [(bot_type, bot_type.title())
+    bot_pair_selection_options = [(bot_type, titleize_snake_case(bot_type, spaces=True))
                                   for bot_type in VALID_BOT_TYPES]
     bot_pair_selection_options.insert(0, (None, 'Select Type'))
 
@@ -28,6 +28,15 @@ class BaseBotForm(FlaskForm):
 class EditEconomyBotForm(FlaskForm):
 
     HANDLER_CONTAINER = 'economy_commands'
+
+    command_container = HiddenField(
+        'command_container', default=HANDLER_CONTAINER)
+    submit = SubmitField('Update')
+
+
+class EditCommentStreamBotForm(FlaskForm):
+    
+    HANDLER_CONTAINER = 'comment_stream_commands'
 
     command_container = HiddenField(
         'command_container', default=HANDLER_CONTAINER)
@@ -68,9 +77,8 @@ class ActionFormLoader:
                 if value not in self.FIELD_TYPES:
                     continue
                 else:
-                    titleized_field_name = titleize_snake_case(
+                    field_name = titleize_snake_case(
                         field, spaces=True)
-                    field_name = remove_boolean(titleized_field_name)
                     # Create an instance of the correct form given the built field name
                     field_instance = self.FIELD_TYPES[value](field_name)
                     # Set the function field to the ActionForm
@@ -81,8 +89,11 @@ class ActionFormLoader:
                     setattr(function_subform_class, hidden_field_name, hidden_field)
 
             # Set a BooleanField to enable the function
-            setattr(function_subform_class, 'is_enabled_boolean',
+            setattr(function_subform_class, 'enabled',
                     BooleanField('Enabled'))
+            # Set a type for the BooleanField
+            enabled_hiddenfield = HiddenField('enabled_type', default='boolean')
+            setattr(function_subform_class, 'enabled_type', enabled_hiddenfield)
             field_list = FormField(function_subform_class)
             # Set the entire field list to the initial form
             setattr(self.form_class, function['function_name'], field_list)

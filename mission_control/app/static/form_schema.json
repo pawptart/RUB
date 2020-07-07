@@ -26,5 +26,20 @@
       "function_name": "list_inventory",
       "text": "string"
     }
+  ],
+  "comment_stream_commands": [
+    {
+      "function_name": "print"
+    },
+    {
+      "function_name": "reply",
+      "contains": "string",
+      "case_sensitive": "boolean",
+      "comment_reply_body": "string"
+    },
+    {
+      "function_name": "add_user_flair",
+      "comment_flair_attributes": "string"
+    }
   ]
 }
